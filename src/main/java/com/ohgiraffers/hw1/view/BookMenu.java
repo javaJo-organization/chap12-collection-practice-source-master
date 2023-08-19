@@ -9,25 +9,27 @@ import java.util.Scanner;
 public class BookMenu {
 
     Scanner sc = new Scanner(System.in);
+
     BookManager bm = new BookManager();
 
     public BookMenu(){}
 
     public void mainMenu() {
 
-        System.out.println("*** 도서 관리 프로그램 ***");
-        System.out.println("1. 새 도서 추가");
-        System.out.println("2. 도서정보 정렬 후 출력");
-        System.out.println("3. 도서 삭제");
-        System.out.println("4. 도서 검색 출력");
-        System.out.println("5. 전체 출력");
-        System.out.println("6. 끝내기");
-        System.out.println("메뉴 번호 선택 : ");
-        int selectNo = sc.nextInt();
-
-        BookMenu bookMenu = new BookMenu();
 
         do{
+            System.out.println("*** 도서 관리 프로그램 ***");
+            System.out.println("1. 새 도서 추가");
+            System.out.println("2. 도서정보 정렬 후 출력");
+            System.out.println("3. 도서 삭제");
+            System.out.println("4. 도서 검색 출력");
+            System.out.println("5. 전체 출력");
+            System.out.println("6. 끝내기");
+            System.out.println("메뉴 번호 선택 : ");
+            int selectNo = sc.nextInt();
+
+            BookMenu bookMenu = new BookMenu();
+
             switch (selectNo) {
                 case 1:
                     bm.addBook(bookMenu.inputBook());
@@ -43,11 +45,11 @@ public class BookMenu {
                     break;
                 case 5: bm.displayAll();
                     break;
-                case 6: System.out.println("프로그램을 종료합니다."); break;
+                case 6: System.out.println("프로그램을 종료합니다."); return;
                 default:
                     System.out.println("번호를 잘못입력하셨습니다. 다시 입력해주세요.");
             }
-        }while (selectNo != 6);
+        }while (true);
 
 
     }
@@ -67,21 +69,17 @@ public class BookMenu {
         return new BookDTO(bNo, category, title, author);
     }
     public int inputBookNo(){
-        // "도서 번호 : " >>입력 받음 >> 리턴
         System.out.println("삭제할 도서의 번호를 입력하세요.");
         System.out.println("도서 번호 : ");
-        int bNo = sc.nextInt();
 
-        return bNo;
+        return sc.nextInt();
     }
     public String inputBookTitle(){
-        // "도서 제목 : " >> 입력 받음 >> 리턴
 
         System.out.println("확인할 도서명을 입력하세요.");
         System.out.println("도서 제목 : ");
-        String title = sc.nextLine();
 
-        return title;
+        return sc.nextLine();
     }
 
     public List<BookDTO> selectSortedBook(){
@@ -90,8 +88,8 @@ public class BookMenu {
         System.out.println("1. 도서번호(ISBN)으로 오름차순정렬");
         System.out.println("2. 도서번호(ISBN)으로 내림차순정렬");
         System.out.println("3. 책 제목으로 오름차순정렬");
-        System.out.println("4. 책 제목으로 오름차순정렬");
-        System.out.println("메뉴 번호 선택 : ");
+        System.out.println("4. 책 제목으로 내림차순정렬");
+        System.out.println("번호 선택 : ");
 
         int bookSort = sc.nextInt();
         List<BookDTO> bookList = bm.sortedBookList(bookSort);

@@ -1,5 +1,9 @@
 package com.ohgiraffers.hw1.controller;
 
+import com.ohgiraffers.hw1.comparator.AscBookNo;
+import com.ohgiraffers.hw1.comparator.AscBookTitle;
+import com.ohgiraffers.hw1.comparator.DescBookNo;
+import com.ohgiraffers.hw1.comparator.DescBookTitle;
 import com.ohgiraffers.hw1.model.dto.BookDTO;
 
 import java.util.ArrayList;
@@ -7,35 +11,70 @@ import java.util.List;
 import java.util.Scanner;
 
 public class BookManager {
+    private ArrayList<BookDTO> bookList;
     public BookManager() {
-        /*리스트 초기화 작업*/
 
-        ArrayList<BookDTO> booklist = new ArrayList<>();
-        Scanner sc = new Scanner(System.in);
+        bookList = new ArrayList<BookDTO>();
     }
 
     public void addBook(BookDTO book)  {
-        // 해당 BookDTO 객체를 리스트에 담기
+        bookList.add(book);
     }
     public void deleteBook(int key) {
-        //전달받은 위치의 인덱스 값 제거
+        if(key != 0 ){
+            key--;
+        }
+        bookList.remove(key);
 
     }
     public void searchBook(String btitle) {
-        //전달받은 제목으로 리스트에서 조회하여 일치하는 객체가 ㅇ있으면
-        // 해당 도서정보를 출력하고, 없는경우 "조회된 도서가 목록에 없습니다" 를 출력
+
+        int result = -1;
+
+        for(int i = 0; i < bookList.size(); i++){
+            if(bookList.get(i).getTitle().equals(btitle)){
+                result = i;
+                break;
+            }
+        }
+
+        if(result > -1){
+            System.out.println(bookList.get(result));
+        }else {
+            System.out.println("조회된 도서가 목록에 없습니다.");
+        }
 
     }
     public void displayAll() {
         //도서목록 전체 출력
+
+        if (bookList.size() > 0) {
+            for (BookDTO bookDTO : bookList) {
+                System.out.println(bookDTO);
+            }
+        } else {
+            System.out.println("출력결과가 없습니다.");
+        }
     }
     public List<BookDTO> sortedBookList(int type) {
-        // 정렬 방식 별 오름차순/내림차순 정렬 (switch문 이용)
 
-        return null;
+        switch (type){
+            case 1 : bookList.sort(new AscBookNo());
+                break;
+            case 2 : bookList.sort(new DescBookNo());
+                break;
+            case 3 : bookList.sort(new AscBookTitle());
+                break;
+            case 4 : bookList.sort(new DescBookTitle());
+                break;
+        }
+
+        return bookList;
 
     }
     public void printBookList(List<BookDTO> printList) {
-        // 전달받은 리스트 객체의 내용 출력
+        for(BookDTO bd : printList) {
+            System.out.println(bd);
+        }
     }
 }
